@@ -143,10 +143,9 @@ namespace TINY_Compiler
                             closed = true;
                             break;
                         }
-                        CurrentLexeme += SourceCode[j];
                         j++;
                     }
-                    CurrentLexeme += SourceCode[j];
+                  CurrentLexeme += SourceCode[j];
                     if (CurrentLexeme.Length < 4 || !closed)
                     {
                         i = j;
