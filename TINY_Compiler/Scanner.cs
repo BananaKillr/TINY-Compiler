@@ -143,6 +143,7 @@ namespace TINY_Compiler
                             closed = true;
                             break;
                         }
+                        CurrentLexeme += SourceCode[j];
                         j++;
                     }
                   CurrentLexeme += SourceCode[j];
