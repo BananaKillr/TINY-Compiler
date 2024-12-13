@@ -9,7 +9,8 @@ namespace TINY_Compiler
     public static class TINY_Compiler
     {
         public static Scanner TINY_Scanner = new Scanner();
-       
+        public static Parser TINY_Parser = new Parser();
+
         public static List<string> Lexemes= new List<string>();
         public static List<Token> TokenStream = new List<Token>();
 
@@ -17,6 +18,7 @@ namespace TINY_Compiler
         public static void Start_Compiling(string SourceCode) 
         {
             TINY_Scanner.StartScanning(SourceCode);
+            TINY_Parser.StartParsing(TokenStream);
         } 
 
 
