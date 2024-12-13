@@ -38,7 +38,7 @@ namespace TINY_Compiler
         {
             Node program = new Node("Program");
             program.Children.Add(Header());
-            program.Children.Add(match(Token_Class.Dot));
+            program.Children.Add(match(Token_Class.DIVIDE));
             MessageBox.Show("Success");
             return program;
         }

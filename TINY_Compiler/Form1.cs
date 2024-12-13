@@ -48,16 +48,18 @@ namespace TINY_Compiler
             PrintTokens();
             PrintErrors();
             PrintComments();
+            treeView1.Nodes.Add(Parser.PrintParseTree(TINY_Compiler.treeroot));
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             Errors.Error_List.Clear();
             Comment.Comment_List.Clear();
+            TINY_Compiler.TokenStream.Clear();
             richTextBox2.Clear();
             richTextBox3.Clear();
             dataGridView1.Rows.Clear();
-            TINY_Compiler.TokenStream.Clear();
+            treeView1.Nodes.Clear();
         }
     }
 }
