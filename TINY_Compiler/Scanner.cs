@@ -48,7 +48,7 @@ namespace TINY_Compiler
             {"*", Token_Class.MULTIPLY},
             {"/", Token_Class.DIVIDE},
             {":=", Token_Class.ASSIGN},
-x            //{":", Token_Class.ASSIGN},
+            //{":", Token_Class.ASSIGN},
             {"<", Token_Class.LESS_THAN},
             {">", Token_Class.GREATER_THAN},
             {"=", Token_Class.EQUAL},
@@ -90,16 +90,30 @@ x            //{":", Token_Class.ASSIGN},
                 if (CurrentChar == '"')
                 {
                     j++;
-                    while (j < SourceCode.Length && SourceCode[j] != '"')
+                    bool isClosed = false;
+                    while (j < SourceCode.Length)
                     {
+                        if (SourceCode[j] == '"' && (j == 0 || SourceCode[j - 1] != '\\'))
+                        {
+                            isClosed = true;
+                            break;
+                        }
                         CurrentLexeme += SourceCode[j];
                         j++;
                     }
-                    CurrentLexeme += "\"";
+
+                    if (!isClosed)
+                    {
+                        Errors.Error_List.Add($"Unterminated string literal: {CurrentLexeme}");
+                    }
+                    else
+                    {
+                        CurrentLexeme = CurrentLexeme + '"';
+                        FindTokenClass(CurrentLexeme);
+                    }
                     i = j;
-                    FindTokenClass(CurrentLexeme);
                 }
-                
+
                 // Identifier
                 else if (CurrentChar >= 'A' && CurrentChar <= 'z') 
                 {
