@@ -48,15 +48,15 @@ namespace TINY_Compiler
             {"*", Token_Class.MULTIPLY},
             {"/", Token_Class.DIVIDE},
             {":=", Token_Class.ASSIGN},
-            {":", Token_Class.ASSIGN},
+x            //{":", Token_Class.ASSIGN},
             {"<", Token_Class.LESS_THAN},
             {">", Token_Class.GREATER_THAN},
             {"=", Token_Class.EQUAL},
             {"<>", Token_Class.NOT_EQUAL},
             {"&&", Token_Class.AND},
             {"&", Token_Class.AND},
-            {".", Token_Class.Dot},
-            {";", Token_Class.SEMICOLON},
+            //{".", Token_Class.Dot},
+            {";", Token_Class.SEMICOLON},  
             {",", Token_Class.COMMA},
             {"{", Token_Class.LEFT_PAREN},
             {"}", Token_Class.RIGHT_PAREN},
@@ -65,7 +65,7 @@ namespace TINY_Compiler
             {"[", Token_Class.LEFT_BRACKET},
             {"]", Token_Class.RIGHT_BRACKET},
             {"||", Token_Class.OR},
-            {"|", Token_Class.OR}
+           // {"|", Token_Class.OR}
         };
 
         public void StartScanning(string SourceCode)
@@ -86,6 +86,7 @@ namespace TINY_Compiler
                     continue;
                 }
 
+                // String
                 if (CurrentChar == '"')
                 {
                     j++;
@@ -98,7 +99,8 @@ namespace TINY_Compiler
                     i = j;
                     FindTokenClass(CurrentLexeme);
                 }
-
+                
+                // Identifier
                 else if (CurrentChar >= 'A' && CurrentChar <= 'z') 
                 {
                     j++;
@@ -112,6 +114,7 @@ namespace TINY_Compiler
                     FindTokenClass(CurrentLexeme);
                 }
 
+                // Number
                 else if (CurrentChar >= '0' && CurrentChar <= '9')
                 {
                     j++;
@@ -125,6 +128,7 @@ namespace TINY_Compiler
                     FindTokenClass(CurrentLexeme);
                 }
 
+                // Comment
                 else if (CurrentChar == '/' && j + 1 < SourceCode.Length && SourceCode[j + 1] == '*')
                 {
                     bool closed = false;
@@ -160,10 +164,39 @@ namespace TINY_Compiler
 
                 }
 
-                else if (CurrentChar == ':' && SourceCode[++j]=='=')
+                // :=
+                else if (j < SourceCode.Length-1 && (SourceCode[j] == ':' && SourceCode[j+1]=='='))
                 {
-                    CurrentLexeme+='=';
+                    j += 2;
+                    CurrentLexeme=":=";
                     i=j;
+                    FindTokenClass(CurrentLexeme);
+                }
+
+                // ||
+                else if (j < SourceCode.Length - 1 && (SourceCode[j] == '|' && SourceCode[j + 1] == '|'))
+                {
+                    j += 2;
+                    CurrentLexeme = "||";
+                    i = j;
+                    FindTokenClass(CurrentLexeme);
+                }
+
+                // &&
+                else if (j < SourceCode.Length - 1 && (SourceCode[j] == '&' && SourceCode[j + 1] == '&'))
+                {
+                    j += 2;
+                    CurrentLexeme = "||";
+                    i = j;
+                    FindTokenClass(CurrentLexeme);
+                }
+
+                // <>
+                else if (j < SourceCode.Length - 1 && (SourceCode[j] == '<' && SourceCode[j + 1] == '>'))
+                {
+                    j += 2;
+                    CurrentLexeme = "||";
+                    i = j;
                     FindTokenClass(CurrentLexeme);
                 }
 
@@ -172,6 +205,7 @@ namespace TINY_Compiler
                     CurrentLexeme = CurrentChar.ToString();
                     FindTokenClass(CurrentLexeme);
                 }
+
             }
 
             TINY_Compiler.TokenStream = Tokens;
