@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 public enum Token_Class
 {
-    INT, FLOAT, STRING, READ, WRITE, REPEAT, UNTIL, IF, ELSEIF, ELSE, THEN, RETURN, ENDL,
+    INT, FLOAT, STRING, READ, WRITE, REPEAT, UNTIL, IF, ELSEIF, ELSE, THEN, RETURN, ENDL, END,
     NUMBER, STRING_VALUE, IDENTIFIER, FUNCTION_CALL,
     PLUS, MINUS, MULTIPLY, DIVIDE, ASSIGN, LESS_THAN, GREATER_THAN, EQUAL, NOT_EQUAL,
-    AND, OR, COMMENT, LEFT_PAREN, RIGHT_PAREN, SEMICOLON, COMMA , LEFT_BRACKET, RIGHT_BRACKET, Dot ,
+    AND, OR, LEFT_CURLY_BRACKET, RIGHT_CURLY_BRACKET, SEMICOLON, COMMA , LEFT_BRACKET, RIGHT_BRACKET , MAIN, ENDOFSTREAM
 }
 namespace TINY_Compiler
 {
@@ -38,7 +38,9 @@ namespace TINY_Compiler
             {"else", Token_Class.ELSE},
             {"then", Token_Class.THEN},
             {"return", Token_Class.RETURN},
-            {"endl", Token_Class.ENDL}
+            {"endl", Token_Class.ENDL},
+            {"end", Token_Class.END},
+            {"main", Token_Class.MAIN }
         };
 
         Dictionary<string, Token_Class> Operators = new Dictionary<string, Token_Class>
@@ -48,24 +50,18 @@ namespace TINY_Compiler
             {"*", Token_Class.MULTIPLY},
             {"/", Token_Class.DIVIDE},
             {":=", Token_Class.ASSIGN},
-            //{":", Token_Class.ASSIGN},
             {"<", Token_Class.LESS_THAN},
             {">", Token_Class.GREATER_THAN},
             {"=", Token_Class.EQUAL},
             {"<>", Token_Class.NOT_EQUAL},
             {"&&", Token_Class.AND},
-            {"&", Token_Class.AND},
-            //{".", Token_Class.Dot},
             {";", Token_Class.SEMICOLON},  
             {",", Token_Class.COMMA},
-            {"{", Token_Class.LEFT_PAREN},
-            {"}", Token_Class.RIGHT_PAREN},
+            {"{", Token_Class.LEFT_CURLY_BRACKET},
+            {"}", Token_Class.RIGHT_CURLY_BRACKET},
             {"(", Token_Class.LEFT_BRACKET},
             {")", Token_Class.RIGHT_BRACKET},
-            {"[", Token_Class.LEFT_BRACKET},
-            {"]", Token_Class.RIGHT_BRACKET},
             {"||", Token_Class.OR},
-           // {"|", Token_Class.OR}
         };
 
         public void StartScanning(string SourceCode)
@@ -181,7 +177,7 @@ namespace TINY_Compiler
                 // :=
                 else if (j < SourceCode.Length-1 && (SourceCode[j] == ':' && SourceCode[j+1]=='='))
                 {
-                    j += 2;
+                    j += 1;
                     CurrentLexeme=":=";
                     i=j;
                     FindTokenClass(CurrentLexeme);
@@ -190,7 +186,7 @@ namespace TINY_Compiler
                 // ||
                 else if (j < SourceCode.Length - 1 && (SourceCode[j] == '|' && SourceCode[j + 1] == '|'))
                 {
-                    j += 2;
+                    j += 1;
                     CurrentLexeme = "||";
                     i = j;
                     FindTokenClass(CurrentLexeme);
@@ -199,8 +195,8 @@ namespace TINY_Compiler
                 // &&
                 else if (j < SourceCode.Length - 1 && (SourceCode[j] == '&' && SourceCode[j + 1] == '&'))
                 {
-                    j += 2;
-                    CurrentLexeme = "||";
+                    j += 1;
+                    CurrentLexeme = "&&";
                     i = j;
                     FindTokenClass(CurrentLexeme);
                 }
@@ -208,7 +204,7 @@ namespace TINY_Compiler
                 // <>
                 else if (j < SourceCode.Length - 1 && (SourceCode[j] == '<' && SourceCode[j + 1] == '>'))
                 {
-                    j += 2;
+                    j += 1;
                     CurrentLexeme = "||";
                     i = j;
                     FindTokenClass(CurrentLexeme);

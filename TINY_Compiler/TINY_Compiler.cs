@@ -19,7 +19,8 @@ namespace TINY_Compiler
         public static void Start_Compiling(string SourceCode) 
         {
             TINY_Scanner.StartScanning(SourceCode);
-            TINY_Parser.StartParsing(TokenStream);
+            if (Errors.Error_List.Count == 0)
+                TINY_Parser.StartParsing(TokenStream);
             treeroot = TINY_Parser.root;
         } 
 

@@ -74,7 +74,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(368, 505);
+            this.dataGridView1.Size = new System.Drawing.Size(368, 649);
             this.dataGridView1.TabIndex = 4;
             // 
             // Column1
@@ -93,10 +93,10 @@
             // 
             // richTextBox2
             // 
-            this.richTextBox2.Location = new System.Drawing.Point(11, 425);
+            this.richTextBox2.Location = new System.Drawing.Point(14, 411);
             this.richTextBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(482, 138);
+            this.richTextBox2.Size = new System.Drawing.Size(482, 296);
             this.richTextBox2.TabIndex = 5;
             this.richTextBox2.Text = "";
             // 
@@ -105,7 +105,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Red;
-            this.label3.Location = new System.Drawing.Point(7, 402);
+            this.label3.Location = new System.Drawing.Point(10, 389);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(80, 20);
             this.label3.TabIndex = 6;
@@ -137,10 +137,10 @@
             // 
             // richTextBox3
             // 
-            this.richTextBox3.Location = new System.Drawing.Point(11, 260);
+            this.richTextBox3.Location = new System.Drawing.Point(11, 264);
             this.richTextBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(482, 141);
+            this.richTextBox3.Size = new System.Drawing.Size(482, 123);
             this.richTextBox3.TabIndex = 9;
             this.richTextBox3.Text = "";
             // 
@@ -169,17 +169,19 @@
             // 
             // treeView1
             // 
+            this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.treeView1.Location = new System.Drawing.Point(892, 58);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(326, 502);
+            this.treeView1.Size = new System.Drawing.Size(572, 649);
             this.treeView1.TabIndex = 12;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1230, 572);
+            this.ClientSize = new System.Drawing.Size(1476, 728);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
