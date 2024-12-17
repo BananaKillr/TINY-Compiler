@@ -46,6 +46,7 @@ namespace TINY_Compiler
             //program.Children.AddRange(DataType().Children);
             program.Children.AddRange(ProgramDash().Children);
             //MessageBox.Show("Success");
+            program.Children.Add(match(Token_Class.ENDOFSTREAM));
             return program;
         }
         Node ProgramDash()
@@ -149,7 +150,7 @@ namespace TINY_Compiler
             }
             else
             {
-                statements.Children.AddRange(Statement().Children);
+                statements.Children.Add(Statement());
                 statements.Children.AddRange(Statements().Children);
             }
             return statements;
@@ -159,26 +160,32 @@ namespace TINY_Compiler
             Node statement = new Node("Statement");
             if (TokenStream[InputPointer].token_type == Token_Class.REPEAT) // repeat statement
             {
+                statement.Name = "Repeat Statement";
                 statement.Children.AddRange(RepeatStatement().Children);
             }
             else if (TokenStream[InputPointer].token_type == Token_Class.IF) //if statement
             {
+                statement.Name = "If Statement";
                 statement.Children.AddRange(IfStatement().Children);
             }
             else if (TokenStream[InputPointer].token_type == Token_Class.READ) //read
             {
+                statement.Name = "Read Statement";
                 statement.Children.AddRange(ReadStatement().Children);
             }
             else if (TokenStream[InputPointer].token_type == Token_Class.WRITE) //write
             {
+                statement.Name = "Write Statement";
                 statement.Children.AddRange(WriteStatement().Children);
             }
             else if (TokenStream[InputPointer].token_type == Token_Class.INT || TokenStream[InputPointer].token_type == Token_Class.FLOAT || TokenStream[InputPointer].token_type == Token_Class.STRING) //declaration
             {
+                statement.Name = "Declaration Statement";
                 statement.Children.AddRange(DeclarationStatement().Children);
             }
             else //assignment
             {
+                statement.Name = "Assignment Statement";
                 statement.Children.AddRange(AssignmentStatement().Children);
             }
             return statement;
@@ -222,6 +229,10 @@ namespace TINY_Compiler
             {
                 writestatement.Children.Add(match(Token_Class.ENDL));
             }
+            else if (TokenStream[InputPointer].token_type == Token_Class.STRING) //string
+            {
+                writestatement.Children.Add(match(Token_Class.STRING));
+            }
             else // expression
             {
                 writestatement.Children.Add(Expression());
@@ -232,7 +243,7 @@ namespace TINY_Compiler
         Node DeclarationStatement()
         {
             Node declarationstatement = new Node("Declaration Statement");
-            declarationstatement.Children.Add(DataType());
+            declarationstatement.Children.AddRange(DataType().Children);
             declarationstatement.Children.AddRange(Identifiers().Children);
             declarationstatement.Children.Add(match(Token_Class.SEMICOLON));
             return declarationstatement;
@@ -243,6 +254,7 @@ namespace TINY_Compiler
             assignmentstatement.Children.Add(Identifier());
             assignmentstatement.Children.Add(match(Token_Class.ASSIGN));
             assignmentstatement.Children.Add(Expression());
+            assignmentstatement.Children.Add(match(Token_Class.SEMICOLON));
             return assignmentstatement;
         }
         Node StatementsWithReturn()
@@ -254,7 +266,7 @@ namespace TINY_Compiler
             }
             else
             {
-                statementswithreturn.Children.AddRange(StatementWithReturn().Children);
+                statementswithreturn.Children.Add(StatementWithReturn());
                 statementswithreturn.Children.AddRange(StatementsWithReturn().Children);
             }
             return statementswithreturn;
@@ -264,31 +276,38 @@ namespace TINY_Compiler
             Node statementwithreturn = new Node("Statement With Return");
             if (TokenStream[InputPointer].token_type == Token_Class.REPEAT) // repeat statement
             {
+                statementwithreturn.Name = "Repeat Statement";
                 statementwithreturn.Children.AddRange(RepeatStatement().Children);
 
             }
             else if (TokenStream[InputPointer].token_type == Token_Class.RETURN) //return statement
             {
-                statementwithreturn.Children.AddRange(ReturnStatement().Children);
+                //statementwithreturn.Name = "Return Statement";
+                statementwithreturn.Children.Add(ReturnStatement());
             }
             else if (TokenStream[InputPointer].token_type == Token_Class.IF) //if statement
             {
+                statementwithreturn.Name = "If Statement";
                 statementwithreturn.Children.AddRange(IfStatement().Children);
             }
             else if (TokenStream[InputPointer].token_type == Token_Class.READ) //read
             {
+                statementwithreturn.Name = "Read Statement";
                 statementwithreturn.Children.AddRange(ReadStatement().Children);
             }
             else if (TokenStream[InputPointer].token_type == Token_Class.WRITE) //write
             {
+                statementwithreturn.Name = "Write Statement";
                 statementwithreturn.Children.AddRange(WriteStatement().Children);
             }
             else if (TokenStream[InputPointer].token_type == Token_Class.INT || TokenStream[InputPointer].token_type == Token_Class.FLOAT || TokenStream[InputPointer].token_type == Token_Class.STRING) //declaration
             {
+                statementwithreturn.Name = "Declaration Statement";
                 statementwithreturn.Children.AddRange(DeclarationStatement().Children);
             }
             else //assignment
             {
+                statementwithreturn.Name = "Assignment Statement";
                 statementwithreturn.Children.AddRange(AssignmentStatement().Children);
             }
             return statementwithreturn;
@@ -367,11 +386,14 @@ namespace TINY_Compiler
             else if (TokenStream[InputPointer].token_type == Token_Class.AND)
             {
                 boolcondition.Children.Add(match(Token_Class.AND));
-                boolcondition.Children.Add(Condition());
             }
+            if ((TokenStream[InputPointer].token_type == Token_Class.IDENTIFIER))
+                boolcondition.Children.Add(Condition());
+            if((TokenStream[InputPointer].token_type == Token_Class.OR) || (TokenStream[InputPointer].token_type == Token_Class.AND))
+                boolcondition.Children.Add(BoolCondition());
             return boolcondition;
         }
-        Node EndIf() // TODO: FINISH ENDIF
+        Node EndIf()
         {
             Node endif = new Node("End IF");
             if (TokenStream[InputPointer].token_type == Token_Class.END)
@@ -463,10 +485,10 @@ namespace TINY_Compiler
             if (TokenStream[InputPointer].token_type == Token_Class.LEFT_BRACKET) //(Condition)
             {
                 factor.Children.Add(match(Token_Class.LEFT_BRACKET));
-                factor.Children.Add(Condition());
+                factor.Children.Add(Expression());
                 factor.Children.Add(match(Token_Class.RIGHT_BRACKET));
             }
-            if (TokenStream[InputPointer].token_type == Token_Class.NUMBER) //number
+            else if (TokenStream[InputPointer].token_type == Token_Class.NUMBER) //number
             {
                 factor.Children.Add(match(Token_Class.NUMBER));
             }
@@ -529,11 +551,11 @@ namespace TINY_Compiler
                 }
                 else if (TokenStream[InputPointer].token_type == Token_Class.FLOAT) // match float
                 {
-                    datatype.Children.Add(match(Token_Class.INT));
+                    datatype.Children.Add(match(Token_Class.FLOAT));
                 }
                 else // match string
                 {
-                    datatype.Children.Add(match(Token_Class.INT));
+                    datatype.Children.Add(match(Token_Class.STRING_KEYWORD));
                 }
             return datatype;
         }
@@ -577,33 +599,26 @@ namespace TINY_Compiler
 
             if (InputPointer < TokenStream.Count)
             {
-
-                if (InputPointer >= TokenStream.Count)
+                if (TokenStream[InputPointer].token_type == Token_Class.ENDOFSTREAM && InputPointer == TokenStream.Count)
                 {
-                    if (TokenStream[InputPointer].token_type == Token_Class.ENDOFSTREAM && InputPointer == TokenStream.Count)
-                    {
-                        Node newNode = new Node("Success");
-                        return newNode;
-                    }
-                    Errors.Error_List.Add("Parsing Error: Reached end of string");
-                    return null;
+                    Node newNode = new Node("Success");
+                    return newNode;
                 }
                 else if (ExpectedToken == TokenStream[InputPointer].token_type)
                 {
-                    if(TokenStream.Count != InputPointer-1)
+                    if(TokenStream.Count-1 != InputPointer)
                         InputPointer++;
                     Node newNode = new Node(ExpectedToken.ToString());
-
                     return newNode;
-
                 }
                 else
                 {
                     Errors.Error_List.Add("Parsing Error: Expected "
                         + ExpectedToken.ToString() + " and " +
                         TokenStream[InputPointer].token_type.ToString() +
-                        "  found\r\n");
-                    InputPointer++;
+                        "  found at token "+ InputPointer.ToString() +"\r\n");
+                    if (TokenStream.Count - 1 != InputPointer)
+                        InputPointer++;
                     return null;
                 }
             }
@@ -611,7 +626,8 @@ namespace TINY_Compiler
             {
                 Errors.Error_List.Add("Parsing Error: Expected "
                         + ExpectedToken.ToString()  + "\r\n");
-                InputPointer++;
+                if (TokenStream.Count-1 != InputPointer)
+                    InputPointer++;
                 return null;
             }
         }

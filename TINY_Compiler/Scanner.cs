@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 public enum Token_Class
 {
     INT, FLOAT, STRING, READ, WRITE, REPEAT, UNTIL, IF, ELSEIF, ELSE, THEN, RETURN, ENDL, END,
-    NUMBER, STRING_VALUE, IDENTIFIER, FUNCTION_CALL,
+    NUMBER, IDENTIFIER, FUNCTION_CALL, STRING_KEYWORD,
     PLUS, MINUS, MULTIPLY, DIVIDE, ASSIGN, LESS_THAN, GREATER_THAN, EQUAL, NOT_EQUAL,
     AND, OR, LEFT_CURLY_BRACKET, RIGHT_CURLY_BRACKET, SEMICOLON, COMMA , LEFT_BRACKET, RIGHT_BRACKET , MAIN, ENDOFSTREAM
 }
@@ -28,7 +28,7 @@ namespace TINY_Compiler
         {
             {"int", Token_Class.INT},
             {"float", Token_Class.FLOAT},
-            {"string", Token_Class.STRING},
+            {"string", Token_Class.STRING_KEYWORD},
             {"read", Token_Class.READ},
             {"write", Token_Class.WRITE},
             {"repeat", Token_Class.REPEAT},
@@ -228,7 +228,7 @@ namespace TINY_Compiler
 
             if (Lex.StartsWith("\"")&&Lex.EndsWith("\"") && Lex.Length > 1)
             {
-                Tok.token_type =  Token_Class.STRING_VALUE;
+                Tok.token_type =  Token_Class.STRING;
             }
             else if (ReservedWords.ContainsKey(Lex.ToLower()))
             {
