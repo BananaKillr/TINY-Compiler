@@ -32,7 +32,6 @@ Identifiers' --> , identifier Identifiers' | := Expression | ε
 AssignmentStatement --> identifier := Expression
 ReturnStatement --> return Expression;
 
-//ConditionStatement can be followed by ), then, repeat, if, read, write, int, float, string, identifier, end, return
 ConditionStatement --> Condition BoolConditon
 BoolConditon --> BoolOp Condition BoolConditon | ε
 Condition --> identifier ConditionOp ConditionTerm
@@ -42,9 +41,8 @@ ConditionOp --> < | > | = | <>
 BoolOp --> && | \|\|
 
 FunctionCall --> (ArgumentPart)
-ArgumentPart --> identifier | identifier,ArgumentPart|ε
+ArgumentPart --> Expression , ArgumentPart|ε
 
-//expression can be followed by ;, (, then, repeat, if, read, write, int, float, string, identifier, end, return
 Expression --> ExpressionTerm Exp
 Exp --> AddOp ExpressionTerm Exp | ε
 ExpressionTerm --> Factor Ter
