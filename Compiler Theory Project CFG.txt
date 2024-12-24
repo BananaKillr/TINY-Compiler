@@ -1,0 +1,61 @@
+Program --> DataType Program'
+Program' --> Main | FunctionDeclaration Program'
+Main --> main() FunctionBody
+FunctionDeclaration --> identifier(Parameters) FunctionBody DataType
+
+Parameters --> DataType identifier Parameter
+Parameter --> , DataType identifier Parameter | ε	
+
+FunctionBody --> {Statements ReturnStatement}
+
+
+//ReturnStatement is only allowed at the end of a function, or inside an if statement
+//because there will always be ambiguitiy from FunctionBody --> {ReturnStatement ReturnStatement}
+
+Statements --> Statement Statements | ε
+Statement --> RepeatStatement | IfStatement | ReadStatement | WriteStatement | DeclarationStatement | AssignmentStatement | ReturnStatement
+
+StatementsWithReturn --> StatementWithReturn StatementsWithReturn | ε
+StatementWithReturn --> RepeatStatement | IfStatement | ReadStatement | WriteStatement | DeclarationStatement | AssignmentStatement | ReturnStatement
+
+RepeatStatement --> repeat Statements until ConditionStatement
+ElseStatement --> else StatementsWithReturn end
+ElseIfStatement --> elseif ConditionStatement then StatementsWithReturn EndIf
+IfStatement --> if ConditionStatement then StatementsWithReturn EndIf
+EndIf --> ElseIfStatement | ElseStatement | end
+ReadStatement --> read identifier;
+WriteStatement --> write Write';
+Write' --> Expression | endl
+DeclarationStatement --> DataType Identifiers;
+Identifiers --> identifier Identifiers'
+Identifiers' --> , identifier Identifiers' | := Expression | ε
+AssignmentStatement --> identifier := Expression
+ReturnStatement --> return Expression;
+
+//ConditionStatement can be followed by ), then, repeat, if, read, write, int, float, string, identifier, end, return
+ConditionStatement --> Condition BoolConditon
+BoolConditon --> BoolOp Condition BoolConditon | ε
+Condition --> identifier ConditionOp ConditionTerm
+ConditionTerm --> number | identifier ConditionTerm' | (ConditionStatement)
+ConditionTerm' --> FunctionCall | ε
+ConditionOp --> < | > | = | <> 
+BoolOp --> && | \|\|
+
+FunctionCall --> (ArgumentPart)
+ArgumentPart --> identifier | identifier,ArgumentPart|ε
+
+//expression can be followed by ;, (, then, repeat, if, read, write, int, float, string, identifier, end, return
+Expression --> ExpressionTerm Exp
+Exp --> AddOp ExpressionTerm Exp | ε
+ExpressionTerm --> Factor Ter
+Ter --> MultOp Factor Ter | ε
+Factor --> number | identifier Factor' | (Expression)
+Factor' --> FunctionCall | ε
+AddOp --> + | -
+MultOp --> * | /
+
+DataType --> int | float | string
+Term --> number | identifier Term'
+Term' --> FunctionCall | ε
+
+Expression --> Equation | Term | string
