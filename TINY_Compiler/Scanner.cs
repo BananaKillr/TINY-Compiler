@@ -47,6 +47,7 @@ namespace TINY_Compiler
         {
             {"+", Token_Class.PLUS},
             {"-", Token_Class.MINUS},
+            {"–", Token_Class.MINUS},
             {"*", Token_Class.MULTIPLY},
             {"/", Token_Class.DIVIDE},
             {":=", Token_Class.ASSIGN},

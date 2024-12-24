@@ -21,7 +21,7 @@ namespace TINY_Compiler
         {
             for (int i = 0; i < TINY_Compiler.TINY_Scanner.Tokens.Count; i++)
             {
-                dataGridView1.Rows.Add(TINY_Compiler.TINY_Scanner.Tokens.ElementAt(i).lex, TINY_Compiler.TINY_Scanner.Tokens.ElementAt(i).token_type);
+                dataGridView1.Rows.Add(i, TINY_Compiler.TINY_Scanner.Tokens.ElementAt(i).lex, TINY_Compiler.TINY_Scanner.Tokens.ElementAt(i).token_type);
             }
         }
         void PrintErrors()
@@ -49,6 +49,8 @@ namespace TINY_Compiler
             PrintErrors();
             PrintComments();
             treeView1.Nodes.Add(Parser.PrintParseTree(TINY_Compiler.treeroot));
+            if (checkBox1.Checked)
+                treeView1.ExpandAll();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -60,6 +62,11 @@ namespace TINY_Compiler
             richTextBox3.Clear();
             dataGridView1.Rows.Clear();
             treeView1.Nodes.Clear();
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

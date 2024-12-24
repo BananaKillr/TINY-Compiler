@@ -31,8 +31,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -41,6 +39,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -65,31 +67,21 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Index,
             this.Column1,
             this.Column2});
             this.dataGridView1.Location = new System.Drawing.Point(518, 58);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 28;
             this.dataGridView1.Size = new System.Drawing.Size(368, 649);
             this.dataGridView1.TabIndex = 4;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "LEX";
-            this.Column1.MinimumWidth = 8;
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 150;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Token Class";
-            this.Column2.MinimumWidth = 8;
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 150;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // richTextBox2
             // 
@@ -175,6 +167,37 @@
             this.treeView1.Size = new System.Drawing.Size(572, 649);
             this.treeView1.TabIndex = 12;
             // 
+            // Index
+            // 
+            this.Index.HeaderText = "Index";
+            this.Index.MinimumWidth = 6;
+            this.Index.Name = "Index";
+            this.Index.Width = 68;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "LEX";
+            this.Column1.MinimumWidth = 8;
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 60;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Token Class";
+            this.Column2.MinimumWidth = 8;
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 112;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(397, 190);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(105, 20);
+            this.checkBox1.TabIndex = 13;
+            this.checkBox1.Text = "Auto Expand";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -182,6 +205,7 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1476, 728);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -209,12 +233,14 @@
         private System.Windows.Forms.RichTextBox richTextBox2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.RichTextBox richTextBox3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Index;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

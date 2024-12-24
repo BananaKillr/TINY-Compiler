@@ -178,7 +178,7 @@ namespace TINY_Compiler
                 statement.Name = "Write Statement";
                 statement.Children.AddRange(WriteStatement().Children);
             }
-            else if (TokenStream[InputPointer].token_type == Token_Class.INT || TokenStream[InputPointer].token_type == Token_Class.FLOAT || TokenStream[InputPointer].token_type == Token_Class.STRING) //declaration
+            else if (TokenStream[InputPointer].token_type == Token_Class.INT || TokenStream[InputPointer].token_type == Token_Class.FLOAT || TokenStream[InputPointer].token_type == Token_Class.STRING_KEYWORD) //declaration
             {
                 statement.Name = "Declaration Statement";
                 statement.Children.AddRange(DeclarationStatement().Children);
@@ -300,7 +300,7 @@ namespace TINY_Compiler
                 statementwithreturn.Name = "Write Statement";
                 statementwithreturn.Children.AddRange(WriteStatement().Children);
             }
-            else if (TokenStream[InputPointer].token_type == Token_Class.INT || TokenStream[InputPointer].token_type == Token_Class.FLOAT || TokenStream[InputPointer].token_type == Token_Class.STRING) //declaration
+            else if (TokenStream[InputPointer].token_type == Token_Class.INT || TokenStream[InputPointer].token_type == Token_Class.FLOAT || TokenStream[InputPointer].token_type == Token_Class.STRING_KEYWORD) //declaration
             {
                 statementwithreturn.Name = "Declaration Statement";
                 statementwithreturn.Children.AddRange(DeclarationStatement().Children);
@@ -447,15 +447,23 @@ namespace TINY_Compiler
         Node Expression()
         {
             Node expression = new Node("Expression");
-            expression.Children.Add(ExpressionTerm());
-            expression.Children.Add(Exp());
+            expression.Children.AddRange(ExpressionTerm().Children);
+            var temp = Exp();
+            if (temp.Children.Count > 0)
+            {
+                expression.Children.Add(temp);
+            }
             return expression;
         }
         Node ExpressionTerm()
         {
             Node expressionterm = new Node("Expression Term");
             expressionterm.Children.Add(Factor());
-            expressionterm.Children.Add(Ter());
+            var temp = Ter();
+            if (temp.Children.Count > 0)
+            {
+                expressionterm.Children.Add(temp);
+            }
             return expressionterm;
         }
         Node Exp()
@@ -471,7 +479,7 @@ namespace TINY_Compiler
                 {
                     exp.Children.Add(match(Token_Class.MINUS));
                 }
-                exp.Children.Add(ExpressionTerm());
+                exp.Children.AddRange(ExpressionTerm().Children);
                 if (TokenStream[InputPointer].token_type == Token_Class.PLUS || TokenStream[InputPointer].token_type == Token_Class.MINUS)
                 {
                     exp.Children.AddRange(Exp().Children);
@@ -482,7 +490,7 @@ namespace TINY_Compiler
         Node Factor()
         {
             Node factor = new Node("Factor");
-            if (TokenStream[InputPointer].token_type == Token_Class.LEFT_BRACKET) //(Condition)
+            if (TokenStream[InputPointer].token_type == Token_Class.LEFT_BRACKET) //(Expression)
             {
                 factor.Children.Add(match(Token_Class.LEFT_BRACKET));
                 factor.Children.Add(Expression());
@@ -491,6 +499,10 @@ namespace TINY_Compiler
             else if (TokenStream[InputPointer].token_type == Token_Class.NUMBER) //number
             {
                 factor.Children.Add(match(Token_Class.NUMBER));
+            }
+            else if (TokenStream[InputPointer].token_type == Token_Class.STRING) //number
+            {
+                factor.Children.Add(match(Token_Class.STRING));
             }
             else //function or identifier
             {
@@ -527,9 +539,21 @@ namespace TINY_Compiler
         {
             Node functioncall = new Node("Function Call");
             functioncall.Children.Add(match(Token_Class.LEFT_BRACKET));
-            functioncall.Children.Add(ArgumentPart());
+            functioncall.Children.Add(ExpressionPart());
             functioncall.Children.Add(match(Token_Class.RIGHT_BRACKET));
             return functioncall;
+        }
+
+        Node ExpressionPart()
+        {
+            Node expressionpart = new Node("ExpressionPart");
+            expressionpart.Children.AddRange(Expression().Children);
+            if (TokenStream[InputPointer].token_type == Token_Class.COMMA)
+            {
+                expressionpart.Children.Add(match(Token_Class.COMMA));
+                expressionpart.Children.AddRange(ExpressionPart().Children);
+            }
+            return expressionpart;
         }
         Node ArgumentPart()
         {
