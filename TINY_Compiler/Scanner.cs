@@ -10,7 +10,7 @@ public enum Token_Class
     INT, FLOAT, STRING, READ, WRITE, REPEAT, UNTIL, IF, ELSEIF, ELSE, THEN, RETURN, ENDL, END,
     NUMBER, IDENTIFIER, FUNCTION_CALL, STRING_KEYWORD,
     PLUS, MINUS, MULTIPLY, DIVIDE, ASSIGN, LESS_THAN, GREATER_THAN, EQUAL, NOT_EQUAL,
-    AND, OR, LEFT_CURLY_BRACKET, RIGHT_CURLY_BRACKET, SEMICOLON, COMMA , LEFT_BRACKET, RIGHT_BRACKET , MAIN, ENDOFSTREAM
+    AND, OR, LEFT_CURLY_BRACKET, RIGHT_CURLY_BRACKET, SEMICOLON, COMMA, LEFT_BRACKET, RIGHT_BRACKET, MAIN, ENDOFSTREAM
 }
 namespace TINY_Compiler
 {
@@ -56,7 +56,7 @@ namespace TINY_Compiler
             {"=", Token_Class.EQUAL},
             {"<>", Token_Class.NOT_EQUAL},
             {"&&", Token_Class.AND},
-            {";", Token_Class.SEMICOLON},  
+            {";", Token_Class.SEMICOLON},
             {",", Token_Class.COMMA},
             {"{", Token_Class.LEFT_CURLY_BRACKET},
             {"}", Token_Class.RIGHT_CURLY_BRACKET},
@@ -112,10 +112,10 @@ namespace TINY_Compiler
                 }
 
                 // Identifier
-                else if (CurrentChar >= 'A' && CurrentChar <= 'z') 
+                else if (CurrentChar >= 'A' && CurrentChar <= 'z')
                 {
                     j++;
-                    while(j < SourceCode.Length && ((SourceCode[j] >= 'A' && SourceCode[j] <= 'z') || (SourceCode[j] >= '0' && SourceCode[j] <= '9')))
+                    while (j < SourceCode.Length && ((SourceCode[j] >= 'A' && SourceCode[j] <= 'z') || (SourceCode[j] >= '0' && SourceCode[j] <= '9')))
                     {
                         CurrentLexeme+=SourceCode[j];
                         j++;
@@ -143,36 +143,36 @@ namespace TINY_Compiler
                 else if (CurrentChar == '/' && j + 1 < SourceCode.Length && SourceCode[j + 1] == '*')
                 {
                     bool closed = false;
-                    CurrentLexeme="";
+                    CurrentLexeme = "";
                     CurrentLexeme += SourceCode[j];
                     CurrentLexeme += SourceCode[j + 1];
                     j += 2;
 
                     while (j < SourceCode.Length - 1)
                     {
+
                         if ((SourceCode[j] == '*' && SourceCode[j + 1] == '/'))
                         {
                             CurrentLexeme += SourceCode[j];
                             CurrentLexeme += SourceCode[j + 1];
-                            j += 2;
+                            j += 2; 
                             closed = true;
                             break;
                         }
+
                         CurrentLexeme += SourceCode[j];
                         j++;
                     }
-                  CurrentLexeme += SourceCode[j];
-                    if (CurrentLexeme.Length < 4 || !closed)
+
+                    if (!closed)
                     {
-                        i = j;
-                        Errors.Error_List.Add("COMMENT ERROR: " + CurrentLexeme);
+                        Errors.Error_List.Add($"Unterminated comment starting at line {lineIndex}: {CurrentLexeme}");
                     }
                     else
                     {
-                        i = j;
                         Comment.Comment_List.Add($"Line: {lineIndex}\nCOMMENT: " + CurrentLexeme + "\n");
+                        i = j - 1;
                     }
-
                 }
 
                 // :=
@@ -223,7 +223,7 @@ namespace TINY_Compiler
         }
         void FindTokenClass(string Lex)
         {
-           // Token_Class TC;
+            // Token_Class TC;
             Token Tok = new Token();
             Tok.lex = Lex;
 
@@ -262,7 +262,7 @@ namespace TINY_Compiler
             return rx.IsMatch(lex);
         }
         bool isConstant(string lex)
-        { 
+        {
             var rx = new Regex(@"^[0-9]+(\.[0-9]+)?$");
             return rx.IsMatch(lex);
         }
