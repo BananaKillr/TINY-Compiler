@@ -20,7 +20,7 @@ namespace TINY_Compiler
         {
 
             TINY_Scanner.StartScanning(SourceCode);
-            if (Errors.Error_List.Count == 0)
+            if (Errors.Error_List.Count == 0 && TokenStream.Count > 0)
                 TINY_Parser.StartParsing(TokenStream);
             treeroot = TINY_Parser.root;
         } 
