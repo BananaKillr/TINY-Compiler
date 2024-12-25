@@ -55,7 +55,7 @@ namespace TINY_Compiler
             Node programdash = new Node("Program'");
             //terminate if main, uses lookahead token to simplify
             if ((InputPointer + 1 < TokenStream.Count) && (TokenStream[InputPointer].token_type == Token_Class.INT || TokenStream[InputPointer].token_type == Token_Class.FLOAT ||
-                TokenStream[InputPointer].token_type == Token_Class.STRING_KEYWORD) && TokenStream[InputPointer+1].token_type == Token_Class.MAIN) 
+                TokenStream[InputPointer].token_type == Token_Class.STRING_KEYWORD) && TokenStream[InputPointer+1].token_type == Token_Class.MAIN || TokenStream[InputPointer + 1].token_type == Token_Class.ENDOFSTREAM) 
             {
                 programdash.Children.Add(Main());
             }
