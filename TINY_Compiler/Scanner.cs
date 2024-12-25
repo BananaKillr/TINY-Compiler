@@ -162,14 +162,14 @@ namespace TINY_Compiler
                         j++;
                     }
                   CurrentLexeme += SourceCode[j];
-                    if (CurrentLexeme.Length < 4 || !closed)
+                    if (/*CurrentLexeme.Length < 4 ||*/ !closed)
                     {
-                        i = j;
+                        //i = j;
                         Errors.Error_List.Add("COMMENT ERROR: " + CurrentLexeme);
                     }
                     else
                     {
-                        i = j;
+                        i = j-1;
                         Comment.Comment_List.Add($"Line: {lineIndex}\nCOMMENT: " + CurrentLexeme + "\n");
                     }
 

@@ -42,6 +42,7 @@ namespace TINY_Compiler
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            treeView1.Nodes.Clear();
             richTextBox2.Clear();
             string Code = richTextBox1.Text;
             TINY_Compiler.Start_Compiling(Code);

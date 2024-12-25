@@ -28,9 +28,9 @@ namespace TINY_Compiler
         int InputPointer = 0;
         List<Token> TokenStream;
         public Node root;
-
         public Node StartParsing(List<Token> TokenStream)
         {
+            if (Errors.Error_List.Count > 0) return null;
             this.InputPointer = 0;
             this.TokenStream = TokenStream;
             root = new Node("Program");
